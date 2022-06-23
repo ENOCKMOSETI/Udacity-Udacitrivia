@@ -29,6 +29,13 @@ def create_app(test_config=None):
     response.headers["Access-Control-Allow-Headers"] = "Accept, Content-Type, Content-Length, Accept-Encoding, X_XSRF-Token"
     return response
 
+  def paginateQuestions(request, questions):
+    page = request.args.get('page', 1, type=int)
+    start = (page - 1) * QUESTIONS_PER_PAGE
+    end = start + QUESTIONS_PER_PAGE
+    questions = Question.query.all()
+    formattedQuestions = [question.format() for question in questions]
+    return formattedQuestions[start:end]
   '''
   @TODO: 
   Create an endpoint to handle GET requests 
