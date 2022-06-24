@@ -7,12 +7,6 @@ database_name = "trivia"
 database_uri = os.environ.get("DB_URI")
 database_path = "postgres://{}/{}".format(database_uri, database_name)
 
-print('-------------------------------------')
-print()
-print(database_path)
-print()
-print('--------------------------------------')
-
 db = SQLAlchemy()
 
 '''
