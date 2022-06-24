@@ -8,39 +8,39 @@
 ## Endpoints
 
 ### GET '/categories'
-- Returns an object with a success value and list of categories
+- Returns an object with a success value and a categories dictionary
 
 - Sample curl http://127.0.0.1:5000/categories
 ```
     {
-        "categories": [
-            "Science",
-            "Art",
-            "Geography",
-            "History",
-            "Entertainment",
-            "Sports"
-        ],
+        "categories": {
+        "1": "Science",
+        "2": "Art",
+        "3": "Geography",
+        "4": "History",
+        "5": "Entertainment",
+        "6": "Sports"
+        },
         "success": true
     }
 ```
 
 ### GET '/questions'
-- Returns an object with a success value, current_category, total number of questions, a list of questions sorted by id and a list of categories.
+- Returns an object with a success value, current_category, total number of questions, a list of questions sorted by id and a categories dictionary.
   Results are paginated in groups of 10. Include an optional page number as a request argument.
   Returns the first page if no argument is passed
 
 - Sample curl http://127.0.0.1:5000/questions
 ```
     {
-    "categories": [
-        "Science",
-        "Art",
-        "Geography",
-        "History",
-        "Entertainment",
-        "Sports"
-    ],
+    "categories": {
+        "1": "Science",
+        "2": "Art",
+        "3": "Geography",
+        "4": "History",
+        "5": "Entertainment",
+        "6": "Sports"
+    },
     "current_category": null,
     "questions": [
         {

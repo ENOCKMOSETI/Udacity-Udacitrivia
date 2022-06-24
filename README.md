@@ -63,5 +63,5 @@ https://github.com/ENOCKMOSETI/Udacity-Udacitrivia/blob/trunk/backend/README.md
 Enock Moseti
 
 ### Acknowledgements
-Udacity
+Udacity \
 African Leadership X
