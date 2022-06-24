@@ -42,14 +42,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['categories'])
-
-    def test_get_categories_not_found(self):
-        res = self.client().get('/categories/1000')
-        data = json.loads(res.data)
-
-        self.assertEqual(res.status_code, 404)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'Not Found')
     
     def test_get_questions(self):
         res = self.client().get('/questions')
@@ -157,13 +149,13 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['question'])
 
-    def test_get_quiz_invalid_json(self):
-        res = self.client().post('/quizzes', json={'quiz_category': {'id': 1000, 'type': 'Science'}})
+    def test_get_quiz_invalid_category(self):
+        res = self.client().post('/quizzes', json={'previous_questions': [], 'quiz_category': {'id': 1000, 'type': 'Science'}})
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 422)
+        self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'Unprocessable Entity')
+        self.assertEqual(data['message'], 'Not Found')
 
 
 # Make the tests conveniently executable
