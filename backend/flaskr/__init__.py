@@ -45,6 +45,8 @@ def create_app(test_config=None):
   def get_categories():
     categories = Category.query.all()
     categories_list = [category.type for category in categories]
+    if len(categories_list) == 0:
+      abort(404)
     return jsonify({
       'success': True,
       'categories': categories_list
@@ -63,7 +65,7 @@ def create_app(test_config=None):
   Clicking on the page numbers should update the questions. 
   '''
   @app.route('/questions', methods=['GET'])
-  def questions_by_page():
+  def get_questions():
     questions = Question.query.order_by(Question.id).all()
     formattedQuestions = paginateQuestions(request, questions)
     if len(formattedQuestions) == 0:
@@ -147,7 +149,6 @@ def create_app(test_config=None):
       'success': True,
       'questions': formattedQuestions,
       'total_questions': len(questions),
-      'current_category': None
     })
   '''
   @TODO: 
@@ -159,6 +160,7 @@ def create_app(test_config=None):
   '''
   @app.route('/categories/<int:category_id>/questions', methods=['GET'])
   def category_questions(category_id):
+    category_id = category_id + 1
     categories = Category.query.filter(Category.id == category_id).all()
     if (not categories):
       abort(404)
@@ -181,18 +183,44 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 
   '''
-
+  @app.route('/quizzes', methods=['POST'])
+  def get_quiz():
+    try:
+      body = request.get_json()
+      previous = body['previous_questions']
+      quiz_category = body.get('quiz_category', None)
+      if quiz_category is None or quiz_category['id'] == 0:
+          questions = Question.query.filter(~Question.id.in_(previous)).all()
+      else:
+          questions = Question.query.filter(Question.category == quiz_category['id'], ~Question.id.in_(previous)).all()
+      question = None if len(questions) == 0 else random.choice(questions).format()
+      return jsonify({
+          'success': True,
+          'question': question
+      })
+    except:
+      abort(422)
+    finally:
+      db.session.close()
   '''
   @TODO: 
   Create error handlers for all expected errors 
   including 404 and 422. 
   '''
+  @app.errorhandler(400)
+  def bad_request(error):
+    return jsonify({
+      'success': False,
+      'error': 400,
+      'message': 'Bad Request'
+    }), 400
+
   @app.errorhandler(404)
   def not_found_error(error):
     return jsonify({
       'success': False,
       'error': 404,
-      'message': 'Not found'
+      'message': 'Not Found'
     }), 404
 
   @app.errorhandler(422)
@@ -202,6 +230,14 @@ def create_app(test_config=None):
       'error': 422,
       'message': 'Unprocessable Entity'
     }), 422
+
+  @app.errorhandler(500)
+  def internal_server_error(error):
+    return jsonify({
+      'success': False,
+      'error': 500,
+      'message': 'Internal Server Error'
+    }), 500
   
   return app
 
