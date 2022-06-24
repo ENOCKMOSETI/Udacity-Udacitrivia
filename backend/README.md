@@ -10,7 +10,7 @@
 ### GET '/categories'
 - Returns an object with a success value and a categories dictionary
 
-- Sample curl http://127.0.0.1:5000/categories
+- Sample: curl http://127.0.0.1:5000/categories
 ```
     {
         "categories": {
@@ -30,7 +30,7 @@
   Results are paginated in groups of 10. Include an optional page number as a request argument.
   Returns the first page if no argument is passed
 
-- Sample curl http://127.0.0.1:5000/questions
+- Sample: curl http://127.0.0.1:5000/questions
 ```
     {
     "categories": {
@@ -121,7 +121,7 @@
 ### DELETE '/questions/{id}'
 - Removes question with the given id. Returns an object with a success value and the deleted question id
 
-- Sample curl -X DELETE http://127.0.0.1:5000/questions/9
+- Sample: curl -X DELETE http://127.0.0.1:5000/questions/9
 ```
     {
         "deleted": 9,
@@ -132,7 +132,7 @@
 ### POST '/questions'
 - Adds a question to the list of questions. Returns an object with a success value and the created question object.
 
-- Sample curl -X POST -H "Content-Type: application/json" -d '{"question": "hello", "answer": "hello", "difficulty": 1, "category": 2}' http://127.0.0.1:5000/questions
+- Sample: curl -X POST -H "Content-Type: application/json" -d '{"question": "hello", "answer": "hello", "difficulty": 1, "category": 2}' http://127.0.0.1:5000/questions
 ```
     {
         "created": {
@@ -210,7 +210,7 @@
 ### GET '/categories/{id}/questions'
 - Returns an object with a list of questions in the provided category id
 
-- Sample curl https:127.0.0.1:5000/categories/1/questions
+- Sample: curl https:127.0.0.1:5000/categories/1/questions
 ```
     {
         "current_category": 1,
@@ -258,7 +258,7 @@
 ### POST '/quizzes'
 - Returns an object with a success value a random question in the specified category provided as a json body
 
-- Sample curl -X POST -H "Content-Type: application/json" -d '{"previous_questions": [], "quiz_category": {"id": 2, "type": "Geography"}}' http://127.0.0.1:5000/questions
+- Sample: curl -X POST -H "Content-Type: application/json" -d '{"previous_questions": [], "quiz_category": {"id": 2, "type": "Geography"}}' http://127.0.0.1:5000/questions
 ```
     {
         "question": {
